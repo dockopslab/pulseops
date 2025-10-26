@@ -1,4 +1,4 @@
-[![pulseopsCI](https://github.com/dockopslab/pulseops/actions/workflows/pulseopsCI.yml/badge.svg?branch=main)](https://github.com/dockopslab/pulseops/actions/workflows/pulseopsCI.yml)
+[![pulseopsCI](https://github.com/dockopslab/pulseops/actions/workflows/pulseopsCI.yml/badge.svg)](https://github.com/dockopslab/pulseops/actions/workflows/pulseopsCI.yml)
 ![GitHub License](https://img.shields.io/github/license/dockopslab/pulseops)
 
 
