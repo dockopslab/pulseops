@@ -1,4 +1,4 @@
-name: bulckanCI
+name: pulseopsCI
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
     paths:
       - 'app/**'
 jobs:
-  build-bulckanCI:
+  build-pulseopsCI:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,4 +34,4 @@ jobs:
       with:
         context: ./app
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/bulckan:latest
+        tags: ghcr.io/${{ github.repository_owner }}/pulseops:latest

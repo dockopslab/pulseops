@@ -1,8 +1,8 @@
-[![bulckanCI](https://github.com/dockopslab/bulckan/actions/workflows/bulckanCI.yml/badge.svg?branch=main)](https://github.com/dockopslab/bulckan/actions/workflows/bulckanCI.yml)
-![GitHub License](https://img.shields.io/github/license/dockopslab/bulckan)
+[![pulseopsCI](https://github.com/dockopslab/pulseops/actions/workflows/pulseopsCI.yml/badge.svg?branch=main)](https://github.com/dockopslab/pulseops/actions/workflows/pulseopsCI.yml)
+![GitHub License](https://img.shields.io/github/license/dockopslab/pulseops)
 
 
-# bulckan
+# PulseOps
 
 This project provides a GitOps tool for Docker Compose on a Docker container.
 
@@ -10,36 +10,36 @@ The application clones a GitHub repository, periodically checks for changes to a
 
 At the end of each time interval, in addition to checking for changes and updating the deployment, it re-runs the initial command so that if a service has been removed, it is redeployed while maintaining parity between the deployment on the host and the compose files on Github.
 
-bulckan will show in the logs all the steps to deploy the compose file. It will also store and log the name specified in compose, the last commit that forced the deployment or update on the host, and the number of times it has been updated due to changes on GitHub.
+PulseOps will show in the logs all the steps to deploy the compose file. It will also store and log the name specified in compose, the last commit that forced the deployment or update on the host, and the number of times it has been updated due to changes on GitHub.
 
 ## Requirements:
 - Docker
 - Docker Compose
 - Access to a GitHub repository (public or private)
 
-bulckan only monitors changes in the specified path and will only update the configuration of the docker compose file. It does not monitor if the images have been updated, use [Watchtower](https://containrrr.dev/watchtower/?ref=selfh.st) for that by deploying it with bulckan or implement a workflow that changes the image version in the compose when the image is rebuilt.
+PulseOps only monitors changes in the specified path and will only update the configuration of the docker compose file. It does not monitor if the images have been updated, use [Watchtower](https://containrrr.dev/watchtower/?ref=selfh.st) for that by deploying it with PulseOps or implement a workflow that changes the image version in the compose when the image is rebuilt.
 
-Note: To test the functionality, it is possible to deploy bulckan as configured. The application points to a branch of the same repository that contains the [compose files](https://github.com/dockopslab/bulckan/tree/example/bulckan-target) needed to deploy one or more Apache containers.
+Note: To test the functionality, it is possible to deploy PulseOps as configured. The application points to a branch of the same repository that contains the [compose files](https://github.com/dockopslab/pulseops/tree/example/pulseops-target) needed to deploy one or more Apache containers.
 
 ## Configuration
 First, clone this repository and navigate to the project directory:
 
 ```
-git clone https://github.com/dockopslab/bulckan.git
-cd bulckan
+git clone https://github.com/dockopslab/pulseops.git
+cd pulseops
 ```
 
 Configure the ``.env`` file to access the repository, branch and path where the compose file you want to deploy and maintain with this tool is located:
 
 ```
-GITHUB_URL=github.com/dockopslab/bulckan.git
-GITHUB_BRANCH=example/bulckan-target
+GITHUB_URL=github.com/dockopslab/pulseops.git
+GITHUB_BRANCH=example/pulseops-target
 GITHUB_PATH=sample/
 CHECK_INTERVAL=60
 GITHUB_USERNAME=
 GITHUB_TOKEN=
 ```
-Bulckan deployment:
+PulseOps deployment:
 
 ```
 docker compose up -d
@@ -54,7 +54,7 @@ rm: can't remove 'repo': Resource busy
 Cloning into 'repo'...
 Recording update...
 Deploying with docker-compose...
-Compose name: 'bulckan-test1'
+Compose name: 'pulseops-test1'
 Last deployed commit: 3ee4dfad909302af3e7561a2877ac1addfc0119d
 Total updates: 1
  apache2 Pulling 
@@ -88,19 +88,19 @@ Total updates: 1
 Sleeping for 60 seconds...
 ```
 
-By adding the following tags to the target application's compose file, information tags will be set on the containers with the commit that forced the last deployment and the number of updates bulckan has performed to maintain parity:
+By adding the following tags to the target application's compose file, information tags will be set on the containers with the commit that forced the last deployment and the number of updates PulseOps has performed to maintain parity:
 
 ```
     labels:
-      - "bulckan.deploy.update_count=${UPDATE_COUNT}"
-      - "bulckan.deploy.last_commit=${LAST_COMMIT}"
+      - "pulseops.deploy.update_count=${UPDATE_COUNT}"
+      - "pulseops.deploy.last_commit=${LAST_COMMIT}"
 ```
 
-See an example in this [compose file](https://github.com/dockopslab/bulckan/blob/example/bulckan-target/sample/docker-compose.yml).
+See an example in this [compose file](https://github.com/dockopslab/pulseops/blob/example/pulseops-target/sample/docker-compose.yml).
 
 # Multiple deployment configuration
 
-bulckan can be deployed multiple times, so it can point to different repositories and keep different applications updated and deployed at the same time.
+PulseOps can be deployed multiple times, so it can point to different repositories and keep different applications updated and deployed at the same time.
 
 If necessary, configure the ``.git.env`` file:
 ```
@@ -110,10 +110,10 @@ GITHUB_TOKEN=
 
 Configure environment variables in ``compose.example.yml``:
 ```
-name: 'bulckan-example'
+name: 'pulseops-example'
 
 networks:
-  bulckan:
+  pulseops:
 
 volumes:
   repo1:
@@ -121,25 +121,25 @@ volumes:
   repo3:
 
 services:
-  bulckan1:
-    image: ghcr.io/dockopslab/bulckan:latest
+  pulseops1:
+    image: ghcr.io/dockopslab/pulseops:latest
     env_file:
       - .git.env
     environment:
-      - GITHUB_URL=github.com/dockopslab/bulckan.git
-      - GITHUB_BRANCH=example/bulckan-target
+      - GITHUB_URL=github.com/dockopslab/pulseops.git
+      - GITHUB_BRANCH=example/pulseops-target
       - GITHUB_PATH=watchtower/
       - CHECK_INTERVAL=3600
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   
-  bulckan2:
-    image: ghcr.io/dockopslab/bulckan:latest
+  pulseops2:
+    image: ghcr.io/dockopslab/pulseops:latest
     env_file:
       - .git.env
     environment:
-      - GITHUB_URL=github.com/dockopslab/bulckan.git
-      - GITHUB_BRANCH=example/bulckan-target
+      - GITHUB_URL=github.com/dockopslab/pulseops.git
+      - GITHUB_BRANCH=example/pulseops-target
       - GITHUB_PATH=sample/
       - CHECK_INTERVAL=120
     volumes:
@@ -148,13 +148,13 @@ services:
 ....
 ```
 
-bulckan deployment:
+PulseOps deployment:
 
 ```
 docker-compose -f compose.example.yml up -d
 ```
 
-Note: Before deploying multiple docker-compose.yml with Bulckan, it is necessary to check for possible incompatibilities. Errors due to duplication of exposed ports, service names, networks, and others must be corrected before deployment.
+Note: Before deploying multiple docker-compose.yml with PulseOps, it is necessary to check for possible incompatibilities. Errors due to duplication of exposed ports, service names, networks, and others must be corrected before deployment.
 
 ## Contributions
 Contributions are welcome. Please open an issue or send a pull request to improve this project.

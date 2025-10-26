@@ -11,9 +11,9 @@ RUN apk --no-cache add \
     rm -rf /var/cache/apk/* /tmp/*
 
 # Copy the deployment script to the container
-COPY bulckan.sh /usr/local/bin/bulckan.sh
+COPY pulseops.sh /usr/local/bin/pulseops.sh
 
 # Give execution permissions to the script
-RUN chmod +x /usr/local/bin/bulckan.sh
+RUN chmod +x /usr/local/bin/pulseops.sh
 
-ENTRYPOINT ["/usr/local/bin/bulckan.sh"]
+ENTRYPOINT ["/usr/local/bin/pulseops.sh"]

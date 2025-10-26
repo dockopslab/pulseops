@@ -1,14 +1,14 @@
-name: 'bulckan'
+name: 'pulseops'
 
 networks:
-  bulckan:
+  pulseops:
 
 volumes:
   repo:
 
 services:
-  bulckan1:
-    image: ghcr.io/dockopslab/bulckan:latest
+  pulseops1:
+    image: ghcr.io/dockopslab/pulseops:latest
     environment:
       - GITHUB_URL=${GITHUB_URL}
       - GITHUB_BRANCH=${GITHUB_BRANCH}
@@ -21,4 +21,4 @@ services:
       - repo:/repo
       # - .repo:/repo
     networks:
-      - bulckan
+      - pulseops

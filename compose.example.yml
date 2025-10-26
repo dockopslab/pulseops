@@ -1,7 +1,7 @@
-name: 'bulckan-example'
+name: 'pulseops-example'
 
 networks:
-  bulckan:
+  pulseops:
 
 volumes:
   repo1:
@@ -9,13 +9,13 @@ volumes:
   repo3:
 
 services:
-  bulckan1:
-    image: ghcr.io/dockopslab/bulckan:latest
+  pulseops1:
+    image: ghcr.io/dockopslab/pulseops:latest
     env_file:
       - .git.env
     environment:
-      - GITHUB_URL=github.com/dockopslab/bulckan.git
-      - GITHUB_BRANCH=example/bulckan-target
+      - GITHUB_URL=github.com/dockopslab/pulseops.git
+      - GITHUB_BRANCH=example/pulseops-target
       - GITHUB_PATH=watchtower/
       - CHECK_INTERVAL=3600
     volumes:
@@ -23,15 +23,15 @@ services:
       - repo1:/repo
       # - .repo1:/repo
     networks:
-      - bulckan
+      - pulseops
   
-  bulckan2:
-    image: ghcr.io/dockopslab/bulckan:latest
+  pulseops2:
+    image: ghcr.io/dockopslab/pulseops:latest
     env_file:
       - .git.env
     environment:
-      - GITHUB_URL=github.com/dockopslab/bulckan.git
-      - GITHUB_BRANCH=example/bulckan-target
+      - GITHUB_URL=github.com/dockopslab/pulseops.git
+      - GITHUB_BRANCH=example/pulseops-target
       - GITHUB_PATH=sample/
       - CHECK_INTERVAL=120
     volumes:
@@ -39,15 +39,15 @@ services:
       - repo2:/repo
       # - .repo2:/repo
     networks:
-      - bulckan
+      - pulseops
 
-  bulckan3:
-    image: ghcr.io/dockopslab/bulckan:latest
+  pulseops3:
+    image: ghcr.io/dockopslab/pulseops:latest
     env_file:
       - .git.env
     environment:
-      - GITHUB_URL=github.com/dockopslab/bulckan.git
-      - GITHUB_BRANCH=example/bulckan-target
+      - GITHUB_URL=github.com/dockopslab/pulseops.git
+      - GITHUB_BRANCH=example/pulseops-target
       - GITHUB_PATH=sample1/
       - CHECK_INTERVAL=60
     volumes:
@@ -55,6 +55,6 @@ services:
       - repo3:/repo
       # - .repo3:/repo
     networks:
-      - bulckan
+      - pulseops
 
   # ...
