@@ -3,7 +3,7 @@
 .record/
 
 # Files
-bulckan_test.sh
+pulseops_test.sh
 .test.env
 compose.test.yml
 Dockerfile.test
